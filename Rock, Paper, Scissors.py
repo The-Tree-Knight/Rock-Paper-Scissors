@@ -1,22 +1,19 @@
 #Erik Dunlap
 #A Game of Rock, Paper, Scissors
 
-
-
 import random
 
 def main():
     answer= remove_non_letters(list(input('Do you want to play Rock, Paper, Scissors? (yes or no): ').lower()))
-    #Need to change to remove spaces
     while True:
         if answer== ['y', 'e', 's'] or answer== ['y']:
             break
         elif answer== ['n', 'o'] or answer== ['n']:
-            answer= input('Please try again\n').lower()
+            answer= remove_non_letters(list(input('Please try again\n').lower()))
         else:
-            answer= input('Huh what? can you say it again\n').lower()
+            answer= remove_non_letters(list(input('Huh what? can you say it again\n').lower()))
     while True:
-        numberToPlay= getNumberOfTimes('How many wins do we play to and if you say a positive number again, I\'m going to assume you mean the negative\n')
+        numberToPlay= getNumberOfTimes('How many wins do we play to?\n')
         wins= 0
         losses= 0
         ties= 0
@@ -56,6 +53,11 @@ def getNumberOfTimes(msg):
     total= 0
     while True:
         userInput= list(input(msg))
+        while ' ' in userInput:
+            userInput.remove(' ')
+        if userInput[0] == '-':
+            print('I can\'t play negative times')
+            continue
         numberToPlay= removeNonNumbers(userInput)
         if numberToPlay== []:
             print('Sorry, I only understand numbers')
@@ -70,7 +72,7 @@ def removeNonNumbers(word):
     """Removes non numbers from a list"""
     word2= word.copy()
     for item in word2:
-        if not '1' <= item <= '9':
+        if not '0' <= item <= '9':
             word.remove(item)
     return word
 
@@ -149,8 +151,7 @@ def whoWins(playerPosition, aiPosition):
         print('Ohhh, a Tie')
         return 'Tie'
     else:
-        print(f'That isn\'t a valid move')
+        print('That isn\'t a valid move')
     
 
 main()
-        
